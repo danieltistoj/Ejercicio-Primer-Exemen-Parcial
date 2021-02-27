@@ -10,6 +10,11 @@ package Clase;
  * 
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class HiloLetra {
+public class HiloLetra implements Runnable {
+
+    @Override
+    public void run() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }
