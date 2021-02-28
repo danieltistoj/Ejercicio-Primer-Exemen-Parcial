@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package ejercicio_primer_parcial;
+import Frame.Ventana;
 
 /**
  *
@@ -15,7 +16,8 @@ public class Ejercicio_Primer_Parcial {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Ventana ventana = new Ventana();
+        ventana.setVisible(true);
     }
     
 }

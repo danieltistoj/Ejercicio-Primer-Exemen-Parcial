@@ -4,24 +4,28 @@
  * and open the template in the editor.
  */
 package Frame;
-
+import Clase.*;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
 public class Ventana extends javax.swing.JFrame {
 
-    /**
-      private Thread hilo1, hilo2, hilo3;
-      * private HiloImagen ModuloUno, ModuloDos, ModuloTres;
-     */
+    
+      private Thread hiloLetra, hiloNumero;
+      private HiloLetra claseLetra;
+      private HiloNumero claseNumero;
+     
     public Ventana() {
         initComponents();
         setLocationRelativeTo(null);
-        /*
-        ModuloUno = new HiloImagen(Modulo_1);
-        hilo1 = new Thread(ModuloUno);
-        */
+        claseLetra = new HiloLetra(labelLetra);
+        claseNumero = new HiloNumero(labelNumero);
+        
+        hiloLetra = new Thread(claseLetra);
+        hiloNumero = new Thread(claseNumero);
+        
     }
 
     /**
@@ -57,6 +61,11 @@ public class Ventana extends javax.swing.JFrame {
         });
 
         btnIniciarNumero.setText("Iniciar ");
+        btnIniciarNumero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarNumeroActionPerformed(evt);
+            }
+        });
 
         labelLetra.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
         labelLetra.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -87,7 +96,7 @@ public class Ventana extends javax.swing.JFrame {
                     .addComponent(txtLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(135, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(165, 165, 165)
+                .addGap(141, 141, 141)
                 .addComponent(labelNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(labelLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -97,9 +106,9 @@ public class Ventana extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelNumero, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
-                    .addComponent(labelLetra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelLetra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelNumero, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -130,8 +139,34 @@ public class Ventana extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarLetraActionPerformed
-        // TODO add your handling code here:
+        claseLetra.setLetra(txtLetra.getText());
+        hiloLetra.start();
     }//GEN-LAST:event_btnIniciarLetraActionPerformed
+
+    private void btnIniciarNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarNumeroActionPerformed
+        try {
+            int numero;
+            if("".equals(txtNumero.getText())){
+                numero = 0;
+                claseNumero.setContador(numero);
+                hiloNumero.start();
+            }
+            else{
+             numero = Integer.parseInt(txtNumero.getText());
+            if(numero>=0){
+                claseNumero.setContador(numero);
+                hiloNumero.start();
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"El numero debe de ser mayor a igual a cero");
+            }
+            }
+             
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Ingrese solo numero");
+        }
+        
+    }//GEN-LAST:event_btnIniciarNumeroActionPerformed
 
     /**
      * @param args the command line arguments
